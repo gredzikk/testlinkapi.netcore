@@ -1,18 +1,16 @@
-﻿namespace TestLinkApi
-{
+﻿namespace TestLinkApi {
     /// <summary>
     /// package an the error message returned by the API
     /// </summary>
-    public class TestLinkErrorMessage
-    {
+    public class TestLinkErrorMessage {
         /// <summary>
         /// the testlink error code. See testlink API documentation.
         /// </summary>
-        public int code;
+        public int code { get; set; }
 
         /// <summary>
         /// the testlink error message returned
         /// </summary>
-        public string message;
+        public string message { get; set; }
     }
 }

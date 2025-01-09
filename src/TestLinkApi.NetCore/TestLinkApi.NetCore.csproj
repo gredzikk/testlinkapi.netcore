@@ -4,21 +4,21 @@
     <Title>TestLink .NET Core</Title>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>TestLinkApi</RootNamespace>
-    <Authors>Freeman Ke</Authors>
-    <Company>CMIT</Company>
+    <Authors>Jakub Gredzicki / fork Freeman Ke</Authors>
+    <Company>APATOR</Company>
     <Description>Testlink Api for .NET Core</Description>
-    <Copyright>Freeman Ke</Copyright>
+    <Copyright>Jakub Gredzicki fork from Freeman Ke</Copyright>
     <SignAssembly>false</SignAssembly>
     <PackageTags>testlink xmlrpc .netcore</PackageTags>
-    <Version>1.2.2</Version>
+    <Version>1.2.5</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageReleaseNotes>
-      - Release for 1.2.2
+      - Release for 1.2.3
     </PackageReleaseNotes>
     <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageProjectUrl>https://github.com/freemanke/testlinkapi.netcore</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/freemanke/testlinkapi.netcore.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/gredzikk/testlinkapi.netcore</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gredzikk/testlinkapi.netcore.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 

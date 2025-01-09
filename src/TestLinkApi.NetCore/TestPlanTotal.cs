@@ -1,31 +1,27 @@
-﻿using System.Collections.Generic;
-
-namespace TestLinkApi
-{
+﻿namespace TestLinkApi {
     /// <summary>
     /// summary results for the execution of a testplan.
     /// 
     /// </summary>
-    public class TestPlanTotal
-    {
+    public class TestPlanTotal {
         /// <summary>
         /// Dictionary with execution totals
         /// </summary>
-        public Dictionary<string, int> Details = new Dictionary<string, int>();
+        public Dictionary<string, int> Details { get; set; } = new Dictionary<string, int>();
 
         /// <summary>
         /// category value
         /// </summary>
-        public string Name = "";
+        public string Name { get; set; }
 
         /// <summary>
         /// total test cases that are covered in this test plan
         /// </summary>
-        public int Total_tc;
+        public int Total_tc { get; set; }
 
         /// <summary>
         /// category name
         /// </summary>
-        public string Type = "";
+        public string Type { get; set; }
     }
 }

@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using CookComputing.XmlRpc;
+﻿using CookComputing.XmlRpc;
 
-namespace TestLinkApi
-{
-    public abstract class TestLinkData
-    {
-        internal static TestLinkErrorMessage ToTestLinkErrorMessage(XmlRpcStruct data)
-        {
+namespace TestLinkApi {
+    public abstract class TestLinkData {
+        internal static TestLinkErrorMessage ToTestLinkErrorMessage(XmlRpcStruct data) {
             var item = new TestLinkErrorMessage();
             item.code = ToInt(data, "code");
             item.message = (string) data["message"];
             return item;
         }
 
-        internal static TestCaseId ToTestCaseId(XmlRpcStruct data)
-        {
+        internal static TestCaseId ToTestCaseId(XmlRpcStruct data) {
             var item = new TestCaseId();
             item.parent_id = ToInt(data, "parent_id");
             item.tc_external_id = ToInt(data, "tc_external_id");
@@ -26,14 +20,13 @@ namespace TestLinkApi
             return item;
         }
 
-        internal static GeneralResult ToGeneralResult(XmlRpcStruct data)
-        {
+        internal static GeneralResult ToGeneralResult(XmlRpcStruct data) {
             var item = new GeneralResult();
             item.operation = (string) data["operation"];
             item.status = (bool) data["status"];
             item.id = ToInt(data, "id");
             item.message = (string) data["message"];
-            if (data.ContainsKey("additionalInfo") &&
+            if(data.ContainsKey("additionalInfo") &&
                 data["additionalInfo"] is XmlRpcStruct)
                 item.additionalInfo = ToAdditionalInfo(data["additionalInfo"] as XmlRpcStruct);
             else
@@ -47,8 +40,7 @@ namespace TestLinkApi
         ///  constructor used by XMLRPC interface on decoding the function return
         /// </summary>
         /// <param name="data">data returned by Testlink</param>
-        internal static AttachmentRequestResponse ToAttachmentRequestResponse(XmlRpcStruct data)
-        {
+        internal static AttachmentRequestResponse ToAttachmentRequestResponse(XmlRpcStruct data) {
             var item = new AttachmentRequestResponse();
             item.foreignKeyId = ToInt(data, "fk_id");
             item.linkedTableName = (string) data["fk_table"];
@@ -65,8 +57,7 @@ namespace TestLinkApi
         ///  constructor used by XMLRPC interface on decoding the function return
         /// </summary>
         /// <param name="data">data returned by Testlink</param>
-        internal static AdditionalInfo ToAdditionalInfo(XmlRpcStruct data)
-        {
+        internal static AdditionalInfo ToAdditionalInfo(XmlRpcStruct data) {
             var item = new AdditionalInfo();
             item.new_name = (string) data["new_name"];
             item.status_ok = ToInt(data, "status_ok") == 1;
@@ -79,8 +70,7 @@ namespace TestLinkApi
             return item;
         }
 
-        internal static Attachment ToAttachment(XmlRpcStruct data)
-        {
+        internal static Attachment ToAttachment(XmlRpcStruct data) {
             var item = new Attachment();
             item.id = ToInt(data, "id");
             item.file_type = (string) data["file_type"];
@@ -93,8 +83,7 @@ namespace TestLinkApi
             return item;
         }
 
-        internal static Build ToBuild(XmlRpcStruct data)
-        {
+        internal static Build ToBuild(XmlRpcStruct data) {
             var item = new Build();
             item.id = ToInt(data, "id");
             item.active = ToInt(data, "active") == 1;
@@ -110,8 +99,7 @@ namespace TestLinkApi
         ///  constructor used by XMLRPC interface on decoding the function return
         /// </summary>
         /// <param name="data">data returned by Testlink</param>
-        internal static ExecutionResult ToExecutionResult(XmlRpcStruct data)
-        {
+        internal static ExecutionResult ToExecutionResult(XmlRpcStruct data) {
             var item = new ExecutionResult();
             item.id = ToInt(data, "id");
             item.notes = (string) data["notes"];
@@ -131,80 +119,50 @@ namespace TestLinkApi
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static List<TestCaseFromTestPlan> GenerateFromResponse(XmlRpcStruct list)
-        {
+        public static List<TestCaseFromTestPlan> GenerateFromResponse(XmlRpcStruct list) {
             var result = new List<TestCaseFromTestPlan>();
-            if (list != null)
-                foreach (var o in list.Values)
-                {
-                    TestCaseFromTestPlan tc = null;
-                    if (o is XmlRpcStruct)
-                    {
-                        var list2 = o as XmlRpcStruct;
-                        foreach (var o2 in list2.Values)
-                        {
-                            tc = ToTestCaseFromTestPlan(o2 as XmlRpcStruct);
-                            result.Add(tc);
+            if(list != null)
+                foreach(var value in list.Values) {
+                    TestCaseFromTestPlan testCase = null;
+                    if(value is XmlRpcStruct xmlRpcStruct) {
+                        foreach(var innerValue in xmlRpcStruct.Values) {
+                            testCase = ToTestCaseFromTestPlan(innerValue as XmlRpcStruct);
+                            result.Add(testCase);
                         }
                     }
-                    else
-                    {
-                        var olist = o as object[];
-                        tc = ToTestCaseFromTestPlan(olist[0] as XmlRpcStruct);
-                        result.Add(tc);
+                    else if(value is object[] objectArray) {
+                        testCase = ToTestCaseFromTestPlan(objectArray[0] as XmlRpcStruct);
+                        result.Add(testCase);
                     }
                 }
+
 
             return result;
         }
 
-        internal static TestCaseFromTestPlan ToTestCaseFromTestPlan(XmlRpcStruct data)
-        {
+        internal static TestCaseFromTestPlan ToTestCaseFromTestPlan(XmlRpcStruct data) {
             var item = new TestCaseFromTestPlan();
-            if (data.ContainsKey("active")) item.active = int.Parse((string) data["active"]) == 1;
-            item.name = (string) data["name"];
-            item.tsuite_name = (string) data["tsuite_name"];
-            item.z = ToInt(data, "z");
-            item.type = (string) data["type"];
-            item.execution_order = ToInt(data, "execution_order");
-            item.exec_id = ToInt(data, "exec_id");
+            item.name = (string) data["tcase_name"];
             item.tc_id = ToInt(data, "tc_id");
-            item.tcversion_number = ToInt(data, "tcversion_number");
-            item.status = (string) data["status"];
-            item.external_id = (string) data["external_id"];
-            item.exec_status = (string) data["exec_status"];
-            item.exec_on_tplan = ToInt(data, "exec_on_tplan");
-            item.executed = ToInt(data, "executed");
-            item.feature_id = ToInt(data, "feature_id");
-            item.assigner_id = ToInt(data, "assigner_id");
-            item.user_id = ToInt(data, "user_id");
-            item.active = ToInt(data, "active") == 1;
-            item.version = ToInt(data, "version");
-            item.testsuite_id = ToInt(data, "testsuite_id");
             item.tcversion_id = ToInt(data, "tcversion_id");
-            //steps = (string)data["steps"];
-            //expected_results = (string)data["expected_results"];
-            item.summary = (string) data["summary"];
+            item.version = ToInt(data, "version");
+            item.external_id = (string) data["external_id"];
             item.execution_type = ToInt(data, "execution_type");
+            item.status = ToInt(data, "status");
+            item.feature_id = ToInt(data, "feature_id");
             item.platform_id = ToInt(data, "platform_id");
             item.platform_name = (string) data["platform_name"];
-            item.linked_ts = ToDate(data, "linked_ts");
-            item.linked_by = ToInt(data, "linked_by");
-            item.importance = ToInt(data, "importance");
-            item.execution_run_type = (string) data["execution_run_type"];
-            item.execution_ts = (string) data["execution_ts"];
-            item.tester_id = ToInt(data, "tester_id");
-            item.execution_notes = (string) data["execution_notes"];
+            item.execution_order = ToInt(data, "execution_order");
+            item.exec_status = (string) data["exec_status"];
+            item.exec_id = ToInt(data, "exec_id");
+            item.tcversion_number = ToInt(data, "tcversion_number");
             item.exec_on_build = ToInt(data, "exec_on_build");
-            item.assigned_build_id = ToInt(data, "assigned_build_id");
-            item.urgency = ToInt(data, "urgency");
-            item.priority = ToInt(data, "priority");
+            item.exec_on_tplan = ToInt(data, "exec_on_tplan");
 
             return item;
         }
 
-        internal static TestCaseFromTestSuite ToTestCaseFromTestSuite(XmlRpcStruct data)
-        {
+        internal static TestCaseFromTestSuite ToTestCaseFromTestSuite(XmlRpcStruct data) {
             var item = new TestCaseFromTestSuite();
             item.active = int.Parse((string) data["active"]) == 1;
             item.id = ToInt(data, "id");
@@ -220,7 +178,7 @@ namespace TestLinkApi
             item.updater_id = ToInt(data, "updater_id");
             item.execution_type = ToInt(data, "execution_type");
             item.summary = (string) data["summary"];
-            if (data.ContainsKey("details"))
+            if(data.ContainsKey("details"))
                 item.details = (string) data["details"];
             else
                 item.details = "";
@@ -238,19 +196,17 @@ namespace TestLinkApi
             return item;
         }
 
-        internal static TestPlanTotal ToTestPlanTotal(XmlRpcStruct data)
-        {
+        internal static TestPlanTotal ToTestPlanTotal(XmlRpcStruct data) {
             var item = new TestPlanTotal();
             item.Total_tc = ToInt(data, "total_tc");
-            if (data.ContainsKey("type"))
+            if(data.ContainsKey("type"))
                 item.Type = (string) data["type"];
-            if (data.ContainsKey("name"))
+            if(data.ContainsKey("name"))
                 item.Name = (string) data["name"];
 
             var xdetails = data["details"] as XmlRpcStruct;
 
-            foreach (string key in xdetails.Keys)
-            {
+            foreach(string key in xdetails.Keys) {
                 var val = xdetails[key] as XmlRpcStruct;
                 var qty = ToInt(val, "qty");
                 item.Details.Add(key, qty);
@@ -262,8 +218,7 @@ namespace TestLinkApi
         /// <summary>
         /// </summary>
         /// <param name="data"></param>
-        internal static TestPlatform ToTestPlatform(XmlRpcStruct data)
-        {
+        internal static TestPlatform ToTestPlatform(XmlRpcStruct data) {
             var item = new TestPlatform();
             item.id = ToInt(data, "id");
             item.name = (string) data["name"];
@@ -276,8 +231,7 @@ namespace TestLinkApi
         ///  constructor used by XMLRPC interface on decoding the function return
         /// </summary>
         /// <param name="data">data returned by Testlink</param>
-        internal static TestProject ToTestProject(XmlRpcStruct data)
-        {
+        internal static TestProject ToTestProject(XmlRpcStruct data) {
             var item = new TestProject();
             item.id = ToInt(data, "id");
             item.notes = (string) data["notes"];
@@ -300,8 +254,7 @@ namespace TestLinkApi
         ///  constructor used by the XML Rpc return
         /// </summary>
         /// <param name="data"></param>
-        internal static TestStep ToTestStep(XmlRpcStruct data)
-        {
+        internal static TestStep ToTestStep(XmlRpcStruct data) {
             var item = new TestStep();
             item.id = ToInt(data, "id");
             item.step_number = ToInt(data, "step_number");
@@ -317,8 +270,7 @@ namespace TestLinkApi
         ///  constructor used by XMLRPC interface on decoding the function return
         /// </summary>
         /// <param name="data">data returned by Testlink</param>
-        internal static TestSuite ToTestSuite(XmlRpcStruct data)
-        {
+        internal static TestSuite ToTestSuite(XmlRpcStruct data) {
             var item = new TestSuite();
             item.name = (string) data["name"];
             item.id = ToInt(data, "id");
@@ -330,10 +282,8 @@ namespace TestLinkApi
         }
 
 
-        public static TestPlan ToTestPlan(XmlRpcStruct data)
-        {
-            return new TestPlan
-            {
+        public static TestPlan ToTestPlan(XmlRpcStruct data) {
+            return new TestPlan {
                 active = ToInt(data, "active") == 1,
                 id = ToInt(data, "id"),
                 name = (string) data["name"],
@@ -344,10 +294,8 @@ namespace TestLinkApi
             };
         }
 
-        internal static TestCase ToTestCase(XmlRpcStruct data)
-        {
-            var tc = new TestCase
-            {
+        internal static TestCase ToTestCase(XmlRpcStruct data) {
+            var tc = new TestCase {
                 active = int.Parse((string) data["active"]) == 1,
                 externalid = (string) data["tc_external_id"],
                 id = ToInt(data, "id"),
@@ -377,22 +325,19 @@ namespace TestLinkApi
             };
 
             var stepData = data["steps"] as object[];
-            if (stepData != null)
-                foreach (XmlRpcStruct aStepDatum in stepData)
+            if(stepData != null)
+                foreach(XmlRpcStruct aStepDatum in stepData)
                     tc.steps.Add(ToTestStep(aStepDatum));
 
             return tc;
         }
 
-        protected static int ToInt(XmlRpcStruct data, string name)
-        {
-            if (data.ContainsKey(name))
-            {
+        protected static int ToInt(XmlRpcStruct data, string name) {
+            if(data.ContainsKey(name)) {
                 var val = data[name];
-                switch (val)
-                {
+                switch(val) {
                     case string s:
-                        if (int.TryParse(s, out var n)) return n;
+                        if(int.TryParse(s, out var n)) return n;
                         break;
                     case int _:
                         return (int) val;
@@ -402,13 +347,10 @@ namespace TestLinkApi
             return 0;
         }
 
-        protected static bool? ToBool(XmlRpcStruct data, string name)
-        {
-            if (data.ContainsKey(name))
-            {
+        protected static bool? ToBool(XmlRpcStruct data, string name) {
+            if(data.ContainsKey(name)) {
                 var val = data[name];
-                if (val is string)
-                {
+                if(val is string) {
                     bool.TryParse(val as string, out var result);
                     return result;
                 }
@@ -444,16 +386,13 @@ namespace TestLinkApi
         //    return result;
         //}
 
-        protected static DateTime ToDate(XmlRpcStruct data, string name)
-        {
-            if (data.ContainsKey(name) && DateTime.TryParse((string) data[name], out var n)) return n;
+        protected static DateTime ToDate(XmlRpcStruct data, string name) {
+            if(data.ContainsKey(name) && DateTime.TryParse((string) data[name], out var n)) return n;
             return DateTime.MinValue;
         }
 
-        protected static char ToChar(XmlRpcStruct data, string name)
-        {
-            if (data.ContainsKey(name) && data[name] is string)
-            {
+        protected static char ToChar(XmlRpcStruct data, string name) {
+            if(data.ContainsKey(name) && data[name] is string) {
                 var s = (string) data[name];
                 return s[0];
             }

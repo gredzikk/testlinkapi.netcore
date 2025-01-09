@@ -24,18 +24,14 @@ DEALINGS IN THE SOFTWARE.
 */
 
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace TestLinkApi
-{
+namespace TestLinkApi {
     /// <summary>
     /// basic exception thrown whenever Testlink returns an error
     /// </summary>
     [Serializable]
-    public class TestLinkException : ApplicationException
-    {
+    public class TestLinkException : ApplicationException {
         /// <summary>
         /// temporarily stores current errors
         /// </summary>
@@ -44,8 +40,7 @@ namespace TestLinkApi
         /// <summary>
         /// basic Constructor
         /// </summary>
-        public TestLinkException() : base("TestLinkAPI.TestLinkException: testlink returned error messages.")
-        {
+        public TestLinkException() : base("TestLinkAPI.TestLinkException: testlink returned error messages.") {
         }
 
         /// <summary>
@@ -53,12 +48,10 @@ namespace TestLinkApi
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="innerException"></param>
-        public TestLinkException(string msg, Exception innerException) : base(msg, innerException)
-        {
+        public TestLinkException(string msg, Exception innerException) : base(msg, innerException) {
         }
 
-        protected TestLinkException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
+        protected TestLinkException(SerializationInfo info, StreamingContext context) : base(info, context) {
         }
 
         /// <summary>
@@ -66,10 +59,9 @@ namespace TestLinkApi
         /// </summary>
         /// <param name="errs"></param>
         public TestLinkException(List<TestLinkErrorMessage> errs)
-            : base("TestLinkException: testlink returned error messages. See errors")
-        {
+            : base("TestLinkException: testlink returned error messages. See errors") {
             errors = errs;
-            foreach (var error in errs)
+            foreach(var error in errs)
                 Data.Add(error.code, error.message);
         }
 
@@ -79,10 +71,9 @@ namespace TestLinkApi
         /// <param name="msg"></param>
         /// <param name="errs"></param>
         public TestLinkException(string msg, List<TestLinkErrorMessage> errs)
-            : base(msg)
-        {
+            : base(msg) {
             errors = errs;
-            foreach (var error in errs)
+            foreach(var error in errs)
                 Data.Add(error.code, error.message);
         }
 
@@ -90,8 +81,7 @@ namespace TestLinkApi
         /// 
         /// </summary>
         /// <param name="msg"></param>
-        public TestLinkException(string msg) : base(msg)
-        {
+        public TestLinkException(string msg) : base(msg) {
         }
 
         /// <summary>
@@ -99,12 +89,10 @@ namespace TestLinkApi
         /// </summary>
         /// <param name="fmt"></param>
         /// <param name="args"></param>
-        public TestLinkException(string fmt, params object[] args) : base(string.Format(fmt, args))
-        {
+        public TestLinkException(string fmt, params object[] args) : base(string.Format(fmt, args)) {
         }
 
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             base.GetObjectData(info, context);
         }
     }

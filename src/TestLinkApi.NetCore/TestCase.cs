@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TestLinkApi
-{
+﻿namespace TestLinkApi {
     /// <summary>
     /// test cases as they are returned from the getTestCase API call
     /// </summary>
     /// <remarks>This is different from other calls that return TestCases </remarks>
-    public class TestCase
-    {
+    public class TestCase {
         public bool active { get; set; }
         public string author_first_name { get; set; }
         public int author_id { get; set; }

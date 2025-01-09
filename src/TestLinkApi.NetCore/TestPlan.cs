@@ -1,10 +1,8 @@
-﻿namespace TestLinkApi
-{
+﻿namespace TestLinkApi {
     /// <summary>
     /// represent a test plan
     /// </summary>
-    public class TestPlan
-    {
+    public class TestPlan {
         /// <summary>
         /// True if the plan is currently active
         /// </summary>

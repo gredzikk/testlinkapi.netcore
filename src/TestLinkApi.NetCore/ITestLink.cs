@@ -1,15 +1,13 @@
 ﻿using CookComputing.XmlRpc;
 
-namespace TestLinkApi
-{
+namespace TestLinkApi {
     /// <summary>
     /// the interface mapping required for the XmlRpc api of testlink. 
     /// This interface is used by the TestLink class. 
     /// </summary>
     /// <remarks>This class makes use of XML-RPC.NET Copyright (c) 2006 Charles Cook</remarks>
     [XmlRpcUrl("")]
-    public interface ITestLink : IXmlRpcProxy
-    {
+    public interface ITestLink : IXmlRpcProxy {
         #region Requirements
 
         //[XmlRpcMethod("tl.assignRequirements")]
@@ -99,25 +97,25 @@ namespace TestLinkApi
         object getTestCasesForTestPlan(string devKey, int testplanid);
 
         [XmlRpcMethod("tl.getTestCasesForTestPlan", StructParams = true)]
-        object getTestCasesForTestPlan(string devKey, int testplanid, int testcaseid);
+        object getTestCasesForTestPlan(string devKey, int testplanid, int buildid);
 
         [XmlRpcMethod("tl.getTestCasesForTestPlan", StructParams = true)]
-        object getTestCasesForTestPlan(string devKey, int testplanid, int testcaseid, int buildid);
+        object getTestCasesForTestPlan(string devKey, int testplanid, int buildid, int assignedto);
 
         [XmlRpcMethod("tl.getTestCasesForTestPlan", StructParams = true)]
-        object getTestCasesForTestPlan(string devKey, int testplanid, int testcaseid, int buildid, int keywordid);
+        object getTestCasesForTestPlan(string devKey, int testplanid, int buildid, int assignedto, bool executed);
 
         [XmlRpcMethod("tl.getTestCasesForTestPlan", StructParams = true)]
-        object getTestCasesForTestPlan(string devKey, int testplanid, int testcaseid, int buildid, int keywordid, bool executed);
+        object getTestCasesForTestPlan(string devKey, int testplanid, int buildid, int assignedto, bool executed, string executedstatus);
 
         [XmlRpcMethod("tl.getTestCasesForTestPlan", StructParams = true)]
-        object getTestCasesForTestPlan(string devKey, int testplanid, int testcaseid, int buildid, int keywordid, bool executed, int assignedTo);
+        object getTestCasesForTestPlan(string devKey, int testplanid, int buildid, int assignedto, bool executed, string executedstatus, int keywordid);
 
         [XmlRpcMethod("tl.getTestCasesForTestPlan", StructParams = true)]
-        object getTestCasesForTestPlan(string devKey, int testplanid, int testcaseid, int buildid, int keywordid, bool executed, int assignedTo, string executedstatus);
+        object getTestCasesForTestPlan(string devKey, int testplanid, int buildid, int assignedto, bool executed, string executedstatus, int keywordid, int testcaseid);
 
         [XmlRpcMethod("tl.getTestCaseAssignedTester", StructParams = true)]
-        object getTestCaseAssignedTester(string devKey, int testplanid, int testcaseid, int platformid, int buildid);
+        object getTestCaseAssignedTester(string devKey, int testplanid, int buildid, int platformid, int testcaseid);
 
         [XmlRpcMethod("tl.getTestCasesForTestSuite", StructParams = true)]
         object getTestCasesForTestSuite(string devKey, int testsuiteid);
@@ -164,23 +162,7 @@ namespace TestLinkApi
         object[] getLastExecutionResult(string devKey, int testplanid, int testcaseid);
 
         [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int platformid, bool overwrite, string notes, bool guess, int bugid, int buildid);
-
-        [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, string platformname, bool overwrite, string notes, bool guess, int bugid, int buildid);
-
-        [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int platformid, bool overwrite, string notes, bool guess, int bugid);
-
-        [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, string platformname, bool overwrite, string notes, bool guess, int bugid);
-
-        [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, int platformid, bool overwrite, string notes, bool guess);
-
-        [XmlRpcMethod("tl.reportTCResult", StructParams = true)]
-        object reportTCResult(string devKey, int testcaseid, int testplanid, string status, string platformname, bool overwrite, string notes, bool guess);
-
+        object reportTCResult(string devKey, int testcaseid, int testplanid, int buildid, string status, string notes);
 
         /// <summary>
         /// delete an execution
@@ -266,6 +248,11 @@ namespace TestLinkApi
         /// <returns>true if everything OK, otherwise error structure</returns>
         [XmlRpcMethod("tl.checkDevKey", StructParams = true)]
         object checkDevKey(string devKey);
+
+
+        [XmlRpcMethod("tl.getUserByLogin", StructParams = true)]
+        object getUserByLogin(string devKey, string user);
+
 
 
         [XmlRpcMethod("tl.about")]
